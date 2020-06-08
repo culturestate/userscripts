@@ -1,0 +1,30 @@
+:root {
+  --color-darkest: #191918; 
+}
+
+tr.spacer {
+	height: 10px !important;
+}
+
+@media (prefers-color-scheme: dark) {
+
+	body {
+		background: var(--color-darkest);
+	}
+
+	#hnmain {
+		background: #313130;
+	}
+
+	.title a {
+		color: #f6f6f0;
+	}
+
+	.commtext {
+		color: #f6f6f0;
+	}
+
+	.commtext a {
+		color: #f6f6f0 !important;
+	}
+}
