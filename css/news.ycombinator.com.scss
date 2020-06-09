@@ -94,6 +94,11 @@ $dark-text-tertiary: shade($base, 40);
 
 		> tbody > tr:first-child > td {
 			background: $dark-bg-tertiary;
+
+			a:first-child {
+				background-color: $dark-bg-tertiary;
+				background-blend-mode: luminosity;
+			}
 		}
 	}
 
