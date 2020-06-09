@@ -1,13 +1,25 @@
+// Functions
+
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
 // Colors
 
-$color-accent-primary: #626260;
-$color-bg-primary: #191918;
-$color-bg-secondary: #313130;
-$color-text-primary: #f6f6f0;
-$color-link-primary: #f6f6f0;
-$color-link-secondary: red;
+$base: #F6F6F0;
+$base-accent: #EE6F2D;
 
-// Home + similar itemlist pages
+$dark-bg-primary: shade($base, 90);
+$dark-bg-secondary: shade($base, 80);
+$dark-bg-tertiary: shade($base, 70);
+
+$dark-text-primary: $base;
+$dark-text-secondary: shade($base, 20);
+$dark-text-tertiary: shade($base, 40);
+
+
+
+// Home + other itemlist-based pages, e.g. ask or show
 
 // Target the topbar
 #hnmain > tbody > tr:first-child > td {
@@ -28,7 +40,7 @@ $color-link-secondary: red;
 			display: none;
 		}
 	}
-	// Reset the changes that we used to deal with the logo
+	// Reset the changes that we made to deal with the logo
 	.pagetop {
 		a {
 			display: inline;
@@ -65,51 +77,90 @@ $color-link-secondary: red;
 
 @media (prefers-color-scheme: dark) {
 
+	// Global
+
 	body {
-		background: $color-bg-primary;
+		background: $dark-bg-primary;
 	}
+
+	.pagetop, .pagetop a {
+		color: $dark-text-secondary !important;
+	}
+
+	// Home + other itemlist-based pages, e.g. ask or show
 
 	#hnmain {
-		background: $color-bg-secondary;
+		background: $dark-bg-secondary;
+
+		> tbody > tr:first-child > td {
+			background: $dark-bg-tertiary;
+		}
 	}
 
-	// Target the topbar
-	#hnmain > tbody > tr:first-child > td {
-		background: $color-accent-primary;
+	.title {
+		
+		.rank, .sitebit, .sitestr {
+			color: $dark-text-tertiary;
+		}
+
+		.storylink {
+			color: $dark-text-primary;
+		}
 	}
 
+ 	.subtext, .subtext a, span {
+		color: $dark-text-tertiary !important;
+	}
 
-	.title a {
-		color: $color-link-primary;
+	.morelink {
+		color: $dark-text-secondary !important;
 	}
 	
-	table.comment-tree td {
+	// Item detail page
+	
+	.comment-tree td {
 		background: transparent !important;
 	}
 
+	.comment {
+		.c00 { color: $base !important; }
+		.c5a { color: shade($base, 40) !important; }
+		.c73 { color: shade($base, 50) !important; }
+		.c82 { color: shade($base, 60) !important; }
+		.c88 { color: shade($base, 70) !important; }
+		.c9c { color: shade($base, 70) !important; }
+		.cae { color: shade($base, 70) !important; }
+		.cbe { color: shade($base, 75) !important; }
+		.cce { color: shade($base, 75) !important; }
+		.cdd { color: shade($base, 75) !important; }
+
+
+		.reply {
+			a {
+				color: $dark-text-secondary;
+			}
+		}
+	}
+
 	.commtext {
-		color: $color-text-primary;
+		color: $dark-text-primary;
+
+		a {
+			color: $dark-text-primary !important;
+
+			&:visited {
+				color: $dark-text-primary !important;
+			}
+		}
+
 	}
 
-	.commtext a {
-		color: $color-link-primary !important;
-	}
-
-	.commtext a:visited {
-		display: inline-block;
-		color: $color-link-secondary !important;
-		text-decoration: line-through !important;
+	.fatitem textarea {
+		background: $dark-bg-tertiary;
+		border: 1px solid shade($base, 50);
 	}
 
 	tr.athing td {
 		background: transparent;
-	}
-
-	.fatitem {
-		width: 100%;
-	}
-
-	.fatitem textarea {
-		width: 100%;
 	}
 }
