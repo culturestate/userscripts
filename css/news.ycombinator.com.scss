@@ -1,0 +1,115 @@
+// Colors
+
+$color-accent-primary: #626260;
+$color-bg-primary: #191918;
+$color-bg-secondary: #313130;
+$color-text-primary: #f6f6f0;
+$color-link-primary: #f6f6f0;
+$color-link-secondary: red;
+
+// Home + similar itemlist pages
+
+// Target the topbar
+#hnmain > tbody > tr:first-child > td {
+	padding: 5px;
+
+	a:first-child {
+		// Update the logo to look better on high-dpi displays.
+		// The content security policy doesn't allow data URIs, so
+		// we need to use an image that's already available.
+		background: url("//news.ycombinator.com/yc500.gif") 0 0 no-repeat;
+		background-size: auto 18px;
+		border: 1px solid white;
+		display: block;
+		height: 18px;
+		width: 18px;
+
+		img {
+			display: none;
+		}
+	}
+	// Reset the changes that we used to deal with the logo
+	.pagetop {
+		a {
+			display: inline;
+			background: transparent;
+			border: none;
+		}
+	}
+}
+
+.itemlist {
+	padding-left: 5px;
+
+	.title {
+		vertical-align: top;
+	}
+}
+
+.spacer {
+	height: 10px !important;
+}
+
+// Item detail page
+
+.fatitem {
+	width: 100%;
+	padding: 0 24px 0 0;
+
+	textarea {
+		width: 100%;
+	}
+}
+
+// Dark Mode
+
+@media (prefers-color-scheme: dark) {
+
+	body {
+		background: $color-bg-primary;
+	}
+
+	#hnmain {
+		background: $color-bg-secondary;
+	}
+
+	// Target the topbar
+	#hnmain > tbody > tr:first-child > td {
+		background: $color-accent-primary;
+	}
+
+
+	.title a {
+		color: $color-link-primary;
+	}
+	
+	table.comment-tree td {
+		background: transparent !important;
+	}
+
+	.commtext {
+		color: $color-text-primary;
+	}
+
+	.commtext a {
+		color: $color-link-primary !important;
+	}
+
+	.commtext a:visited {
+		display: inline-block;
+		color: $color-link-secondary !important;
+		text-decoration: line-through !important;
+	}
+
+	tr.athing td {
+		background: transparent;
+	}
+
+	.fatitem {
+		width: 100%;
+	}
+
+	.fatitem textarea {
+		width: 100%;
+	}
+}
