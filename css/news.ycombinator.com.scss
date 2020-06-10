@@ -87,6 +87,18 @@ $dark-text-tertiary: shade($base, 40);
 		color: $dark-text-secondary !important;
 	}
 
+	.yclinks {
+		a {
+			color: $dark-text-tertiary;
+		}
+	}
+
+	input[type=text], textarea {
+		color: $dark-text-primary !important;
+		background: $dark-bg-tertiary !important;
+		border: 1px solid shade($base, 50) !important;
+	}
+
 	// Home + other itemlist-based pages, e.g. ask or show
 
 	#hnmain {
@@ -158,11 +170,6 @@ $dark-text-tertiary: shade($base, 40);
 			}
 		}
 
-	}
-
-	.fatitem textarea {
-		background: $dark-bg-tertiary;
-		border: 1px solid shade($base, 50);
 	}
 
 	tr.athing td {
