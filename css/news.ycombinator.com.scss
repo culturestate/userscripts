@@ -40,12 +40,31 @@ $dark-text-tertiary: shade($base, 40);
 			display: none;
 		}
 	}
-	// Reset the changes that we made to deal with the logo
+
+	// Make sure the logo changes don't apply to the rest of the topbar links
 	.pagetop {
 		a {
 			display: inline;
 			background: transparent;
 			border: none;
+		}
+	}
+	
+	// Remove the point total next to the username.
+	// It's not wrapped, so we need to hack it a bit with
+	// font sizes.
+	> table > tbody > tr > td:last-child > span.pagetop {
+		font-size: 0;
+
+		a {
+			font-size: 10pt;
+		}
+		
+		// Add a separator to match the rest of the topbar links
+		#logout {
+			&::before {
+				content: "\00a0|\00a0";
+			}
 		}
 	}
 }
