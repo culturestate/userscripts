@@ -1,10 +1,41 @@
-// Functions
+// Global functions
 
+// Gives a better result than default darken and lighten
 @function shade($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
 
+@function tint($color, $percentage) {
+  @return mix(white, $color, $percentage);
+}
+
+// Voting arrows
+@mixin arrow($arrow-color) {
+  width: 0; 
+  height: 0; 
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  
+  border-bottom: 8px solid $arrow-color;
+}
+
 // Colors
+
+$light-base: #F6F6F0;
+$light-accent: #EE6F2D;
+$light-topbar: shade($light-base, 10);
+
+$light-text-base: #222222;
+$light-text-accent: tint($light-text-base, 50);
+$light-text-link: #222222;
+
+$dark-text-base: #EEEEEE;
+$dark-text-accent: shade($dark-text-base, 50);
+$dark-text-link: #EEEEEE;
+
+$dark-base: black;
+$dark-accent: black;
+$dark-topbar: black;
 
 $base: #F6F6F0;
 $base-accent: #EE6F2D;
@@ -17,21 +48,30 @@ $dark-text-primary: $base;
 $dark-text-secondary: shade($base, 20);
 $dark-text-tertiary: shade($base, 40);
 
+// Fonts
 
+$base-font-size: 10pt;
 
 // Home + other itemlist-based pages, e.g. ask or show
 
+:root {
+	background: tint($light-base, 90);
+	color: $light-text-base;
+}
+
 // Target the topbar
 #hnmain > tbody > tr:first-child > td {
+
+	background: $light-topbar;
 	padding: 5px;
 
+	// Update the logo to look better on high-dpi displays.
+	// The content security policy doesn't allow data URIs, so
+	// we need to use an image that's already available.
 	a:first-child {
-		// Update the logo to look better on high-dpi displays.
-		// The content security policy doesn't allow data URIs, so
-		// we need to use an image that's already available.
 		background: url("//news.ycombinator.com/yc500.gif") 0 0 no-repeat;
 		background-size: auto 18px;
-		border: 1px solid white;
+		border: 1px solid tint($light-base, 90);
 		display: block;
 		height: 18px;
 		width: 18px;
@@ -44,9 +84,9 @@ $dark-text-tertiary: shade($base, 40);
 	// Make sure the logo changes don't apply to the rest of the topbar links
 	.pagetop {
 		a {
-			display: inline;
 			background: transparent;
 			border: none;
+			display: inline;
 		}
 	}
 	
@@ -57,18 +97,52 @@ $dark-text-tertiary: shade($base, 40);
 		font-size: 0;
 
 		a {
-			font-size: 10pt;
+			font-size: $base-font-size;
 		}
 		
-		// Add a separator to match the rest of the topbar links
+		// Add the separator back in
 		#logout {
 			&::before {
-				content: "\00a0|\00a0";
+				content: "\a0|\a0";
 			}
 		}
 	}
 }
 
+// Adjust the topbar link color to match
+.topsel {
+	a {
+		font-weight: bold;
+
+		&:visited {
+			color: $light-text-base;
+		}
+	}
+}
+
+.title {
+	.rank, .sitebit, .sitestr {
+		color: tint($light-text-base, 50) !important;
+	}
+
+	.storylink {
+		color: $light-text-base;
+	}
+}
+
+// Replace the arrow gif with a CSS arrow so thatt
+// we can adjust the color.
+.votearrow {
+	background-image: none;
+	@include arrow($light-text-accent)
+}
+
+.subtext, .subtext a, .subtext span {
+	color: tint($light-text-base, 50) !important;
+}
+
+// Add a little more whitespace in the itemlist.
+// This increases readability, especially in dark mode.
 .itemlist {
 	padding-left: 5px;
 
@@ -81,8 +155,9 @@ $dark-text-tertiary: shade($base, 40);
 	height: 10px !important;
 }
 
-// Item detail page
+// Item details
 
+// Expand the comment box by default
 .fatitem {
 	width: 100%;
 	padding: 0 24px 0 0;
@@ -92,14 +167,54 @@ $dark-text-tertiary: shade($base, 40);
 	}
 }
 
+.comtr .comhead {
+	// Don't show points on your own comments
+	font-size: 0;
+
+	.hnuser, .age, .par, .togg, .storyon {
+		font-size: 8pt;
+	}
+	
+	// Add back the space between span elements
+	span {
+		&::before {
+				content: "\a0";
+			}
+	}
+}
+
+.comment {
+	// HN uses shades of the base font color to show downvoted
+	// comments, so we need to override those.
+	@mixin comment-light($adjust-value) {
+		color: tint($light-text-base, $adjust-value) !important;
+
+		a, a:hover, a:visited {
+			color: tint($light-text-link, $adjust-value) !important;
+		}
+	}
+
+	.c00 { @include comment-light(0) }
+	.c5a { @include comment-light(40) }
+	.c73 { @include comment-light(45) }
+	.c82 { @include comment-light(50) }
+	.c88 { @include comment-light(55) }
+	.c9c { @include comment-light(60) }
+	.cae { @include comment-light(65) }
+	.cbe { @include comment-light(70) }
+	.cce { @include comment-light(75) }
+	.cdd { @include comment-light(80) }
+}
+
 // Dark Mode
 
 @media (prefers-color-scheme: dark) {
 
 	// Global
 
-	body {
-		background: $dark-bg-primary;
+	:root {
+		background: shade($dark-base, 90);
+		color: $dark-text-base;
 	}
 
 	.pagetop, .pagetop a {
@@ -135,21 +250,26 @@ $dark-text-tertiary: shade($base, 40);
 
 	.title {
 		
-		.rank, .sitebit, .sitestr {
-			color: $dark-text-tertiary;
+		.rank, .score, .sitebit, .sitestr {
+			color: $dark-text-accent !important;
 		}
 
 		.storylink {
-			color: $dark-text-primary;
+			color: $dark-text-base;
 		}
 	}
 
- 	.subtext, .subtext a, span {
-		color: $dark-text-tertiary !important;
+ 	.subtext, .subtext a, .subtext span {
+		color: $dark-text-accent !important;
+	}
+
+	.votearrow {
+		background-image: none;
+		@include arrow($dark-text-accent)
 	}
 
 	.morelink {
-		color: $dark-text-secondary !important;
+		color: $dark-text-accent !important;
 	}
 	
 	// Item detail page
@@ -159,36 +279,32 @@ $dark-text-tertiary: shade($base, 40);
 	}
 
 	.comment {
-		.c00 { color: $base !important; }
-		.c5a { color: shade($base, 40) !important; }
-		.c73 { color: shade($base, 50) !important; }
-		.c82 { color: shade($base, 60) !important; }
-		.c88 { color: shade($base, 70) !important; }
-		.c9c { color: shade($base, 70) !important; }
-		.cae { color: shade($base, 70) !important; }
-		.cbe { color: shade($base, 75) !important; }
-		.cce { color: shade($base, 75) !important; }
-		.cdd { color: shade($base, 75) !important; }
+	// HN uses shades of the base font color to show downvoted
+	// comments, so we need to override those.
+		@mixin comment-dark($adjust-value) {
+			color: shade($dark-text-base, $adjust-value) !important;
 
+			a, a:hover, a:visited {
+				color: shade($dark-text-link, $adjust-value) !important;
+			}
+		}
+
+		.c00 { @include comment-dark(0) }
+		.c5a { @include comment-dark(40) }
+		.c73 { @include comment-dark(45) }
+		.c82 { @include comment-dark(50) }
+		.c88 { @include comment-dark(55) }
+		.c9c { @include comment-dark(60) }
+		.cae { @include comment-dark(65) }
+		.cbe { @include comment-dark(70) }
+		.cce { @include comment-dark(75) }
+		.cdd { @include comment-dark(80) }
 
 		.reply {
 			a {
 				color: $dark-text-secondary;
 			}
 		}
-	}
-
-	.commtext {
-		color: $dark-text-primary;
-
-		a {
-			color: $dark-text-primary !important;
-
-			&:visited {
-				color: $dark-text-primary !important;
-			}
-		}
-
 	}
 
 	tr.athing td {
