@@ -54,9 +54,28 @@ $base-font-size: 10pt;
 
 // Home + other itemlist-based pages, e.g. ask or show
 
-:root {
-	background: tint($light-base, 90);
-	color: $light-text-base;
+@media (prefers-color-scheme: light) {
+	:root {
+		--background-primary: shade($dark-base, 90);
+		--background-secondary: shade($base, 80);
+		--text-primary: $light-text-base;
+		--text-secondary: ;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-primary: shade($dark-base, 90);
+		--background-secondary: shade($base, 80);
+		--text-primary: $light-text-base;
+		--text-secondary: ;
+	}
+}
+
+body {
+	background: black;
+	background: var(--background-primary);
+	color: var(--text-primary);
 }
 
 // Target the topbar
@@ -171,15 +190,29 @@ $base-font-size: 10pt;
 	// Don't show points on your own comments
 	font-size: 0;
 
-	.hnuser, .age, .par, .togg, .storyon {
+	.hnuser, .age, .par, .togg, .storyon, a[href*="edit"], a[href*="delete"] {
 		font-size: 8pt;
 	}
 	
-	// Add back the space between span elements
+	// Add back the space between elements
 	span {
 		&::before {
 				content: "\a0";
 			}
+	}
+	
+	// Add back the separators for edit and delete links
+	a[href*="edit"], a[href*="delete"] {
+		&::before {
+				content: "\a0|\a0";
+			}
+	}
+
+	// Add back the space after the delete link
+	a[href*="delete"] {
+		&::after {
+			content: "\a0";
+		}
 	}
 }
 
@@ -225,6 +258,10 @@ $base-font-size: 10pt;
 		a {
 			color: $dark-text-tertiary;
 		}
+	}
+
+	.titlelink {
+		color: $dark-text-primary !important;
 	}
 
 	input[type=text], textarea {
@@ -298,7 +335,7 @@ $base-font-size: 10pt;
 		.cae { @include comment-dark(65) }
 		.cbe { @include comment-dark(70) }
 		.cce { @include comment-dark(75) }
-		.cdd { @include comment-dark(80) }
+		.cdd { @include comment-dark(75) }
 
 		.reply {
 			a {
